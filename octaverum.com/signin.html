@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Giriş Yap - Octaverum</title>
+    <link rel="icon" href="logo.png" type="image/png" />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <!-- Arka plan partiküller -->
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- Sabit Header & Navbar -->
+    <header>
+      <div class="header-container">
+        <a href="index.html" class="logo-link">
+          <img src="logo.png" alt="Octaverum Logo" class="logo" />
+        </a>
+        <nav class="navbar">
+          <ul>
+            <li><a href="index.html">Ana sayfa</a></li>
+            <li><a href="abonelik.html">Abonelik</a></li>
+            <li><a href="signin.html" class="active">Giriş yap</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Giriş Formu -->
+    <div class="login-container">
+      <h2 class="login-title">Giriş Yap</h2>
+      <form class="login-form" id="login-form">
+        <label for="email">E-posta</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="E-posta"
+          required
+        />
+        <label for="password">Şifre</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Şifre"
+          required
+        />
+        <button type="submit" class="login-button">Giriş Yap</button>
+      </form>
+      <p class="register-text">
+        Henüz hesabınız yok mu? <a href="register.html">Kayıt Ol</a>
+      </p>
+      <p class="register-text">
+        <a href="forget-password.html">Şifremi unuttum</a>
+      </p>
+    </div>
+
+    <footer class="footer">
+      <p>© 2025 Octaverum. All rights reserved.</p>
+    </footer>
+
+    <!-- Canvas Particles -->
+    <script>
+      const canvas = document.getElementById("particleCanvas");
+      const ctx = canvas.getContext("2d");
+      canvas.style.position = "fixed";
+      canvas.style.top = "0";
+      canvas.style.left = "0";
+      canvas.style.width = "100%";
+      canvas.style.height = "100%";
+      canvas.style.zIndex = "-1";
+      canvas.style.pointerEvents = "none";
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const particles = [];
+      const numParticles = 100;
+      for (let i = 0; i < numParticles; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          radius: Math.random() * 3 + 1,
+          vx: (Math.random() - 0.5) * 0.5,
+          vy: (Math.random() - 0.5) * 0.5,
+          alpha: Math.random(),
+        });
+      }
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach((p) => {
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+          if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fillStyle = "rgba(255,255,255," + p.alpha + ")";
+          ctx.fill();
+        });
+        requestAnimationFrame(animate);
+      }
+      animate();
+      window.addEventListener("resize", () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      });
+    </script>
+
+    <!-- Scripts -->
+    <script src="/js/api/auth.js"></script>
+    <script src="/js/auth-check.js"></script>
+    <script src="/js/login.js"></script>
+  </body>
+</html>

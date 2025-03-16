@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Octaverum - Retro Neon AI</title>
+    <!-- Favicon: logo.png aynı klasörde -->
+    <link rel="icon" href="logo.png" type="image/png" />
+    <!-- Ana CSS -->
+    <link rel="stylesheet" href="css/styles.css" />
+    <!-- Google Fonts: Share Tech Mono -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap"
+      rel="stylesheet"
+    />
+    <!-- AOS (Opsiyonel Animasyonlar) -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+  </head>
+  <body>
+    <!-- Arka plan partiküller (Canvas) -->
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- Sabit Header & Navbar -->
+    <header>
+      <div class="header-container">
+        <a href="index.html" class="logo-link">
+          <img src="logo.png" alt="Octaverum Logo" class="logo" />
+        </a>
+        <nav class="navbar">
+          <ul>
+            <li><a href="index.html" class="active">Ana sayfa</a></li>
+            <li><a href="abonelik.html">Abonelik</a></li>
+            <li><a href="signin.html">Giriş yap</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Ana İçerik (Header altı: margin-top:60px) -->
+    <main class="home-main">
+      <div class="container" data-aos="fade-up">
+        <h1 id="typewriter" class="typewriter"></h1>
+      </div>
+
+      <!-- Prompt Alanı -->
+      <div class="prompt-area" data-aos="fade-up">
+        <div class="input-wrapper">
+          <textarea
+            id="promptInput"
+            autocomplete="off"
+            maxlength="150"
+            rows="1"
+            style="overflow: hidden; resize: none"
+          ></textarea>
+          <div class="char-counter">300 harf</div>
+          <div id="promptPlaceholder" class="prompt-placeholder"></div>
+        </div>
+        <button id="promptButton" class="fancy-button">
+          <span class="button-text"></span>
+          <span class="snowflake">❄</span>
+        </button>
+      </div>
+
+      <!-- Müzik Türleri Bölümü -->
+      <section class="genre-section" data-aos="fade-up">
+        <h3>Müzik Türleri</h3>
+        <div class="genre-container">
+          <div class="genre-box highlight" data-genre="Rap">
+            <span class="fire-icon">🔥</span>Rap
+          </div>
+          <div class="genre-box highlight" data-genre="Hip Hop">
+            <span class="fire-icon">🔥</span>Hip Hop
+          </div>
+          <div class="genre-box highlight" data-genre="Rock">
+            <span class="fire-icon">🔥</span>Rock
+          </div>
+          <div class="genre-box" data-genre="Jazz">Jazz</div>
+          <div class="genre-box" data-genre="Pop">Pop</div>
+          <div class="genre-box" data-genre="EDM">EDM</div>
+          <!-- Diğer türler -->
+        </div>
+      </section>
+
+      <!-- FEATURES (AI Müzik Üretme & Mix & Mastering Coming Soon) -->
+      <section class="features" data-aos="fade-up">
+        <div class="feature-card">
+          <h2>AI Müzik Üretme</h2>
+          <p>
+            Yapay zeka motorumuzla benzersiz müzik besteleri oluşturabilirsiniz.
+            Farklı tarzları deneyin ve müzik dünyasında fark yaratın.
+          </p>
+        </div>
+        <div class="feature-card">
+          <h2>
+            Mix &amp; Mastering <span class="coming-soon">Coming Soon</span>
+          </h2>
+          <p>
+            Yakında, yapay zeka destekli mix ve mastering araçlarımızla
+            bestelerinizi profesyonelce işleyebileceksiniz.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>© 2025 Octaverum. All rights reserved.</p>
+    </footer>
+
+    <!-- Scriptler -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="/js/api/auth.js"></script>
+    <script src="/js/auth-check.js"></script>
+    <script>
+      AOS.init();
+
+      // Typewriter Efekti
+      const mainText = "Octaverum";
+      let mainIndex = 0;
+      const mainEl = document.getElementById("typewriter");
+      function mainTypeWriter() {
+        if (mainIndex < mainText.length) {
+          mainEl.innerHTML += mainText.charAt(mainIndex);
+          mainIndex++;
+          setTimeout(mainTypeWriter, 200);
+        } else {
+          mainEl.classList.add("blur-cycle");
+        }
+      }
+      mainTypeWriter();
+
+      // Prompt Placeholder Efekti
+      const promptText = "Prompt giriniz";
+      let promptIndex = 0;
+      const promptEl = document.getElementById("promptPlaceholder");
+      function promptTypeWriter() {
+        if (promptIndex < promptText.length) {
+          promptEl.innerHTML += promptText.charAt(promptIndex);
+          promptIndex++;
+          setTimeout(promptTypeWriter, 400);
+        }
+      }
+      promptTypeWriter();
+
+      // Karakter Sayacı
+      const charCounter = document.querySelector(".char-counter");
+      const promptInput = document.getElementById("promptInput");
+      const maxChars = 300;
+      promptInput.addEventListener("input", function () {
+        this.style.height = "auto";
+        this.style.height = this.scrollHeight + "px";
+        let remaining = maxChars - this.value.length;
+        charCounter.innerText = remaining + " harf";
+      });
+
+      // Müzik Türleri Tıklama
+      const genreBoxes = document.querySelectorAll(".genre-box");
+      genreBoxes.forEach((box) => {
+        box.addEventListener("click", () => {
+          promptEl.style.opacity = "0";
+          const realGenre = box.getAttribute("data-genre");
+          if (promptInput.value.trim() === "") {
+            promptInput.value = realGenre;
+          } else {
+            promptInput.value += ", " + realGenre;
+          }
+          promptInput.style.height = "auto";
+          promptInput.style.height = promptInput.scrollHeight + "px";
+          let remaining = maxChars - promptInput.value.length;
+          charCounter.innerText = remaining + " harf";
+        });
+      });
+
+      // Canvas Partiküller
+      const canvas = document.getElementById("particleCanvas");
+      const ctx = canvas.getContext("2d");
+      canvas.style.position = "fixed";
+      canvas.style.top = "0";
+      canvas.style.left = "0";
+      canvas.style.width = "100%";
+      canvas.style.height = "100%";
+      canvas.style.zIndex = "-1";
+      canvas.style.pointerEvents = "none";
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const particles = [];
+      const numParticles = 100;
+      for (let i = 0; i < numParticles; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          radius: Math.random() * 3 + 1,
+          vx: (Math.random() - 0.5) * 0.5,
+          vy: (Math.random() - 0.5) * 0.5,
+          alpha: Math.random(),
+        });
+      }
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach((p) => {
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+          if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fillStyle = "rgba(255,255,255," + p.alpha + ")";
+          ctx.fill();
+        });
+        requestAnimationFrame(animate);
+      }
+      animate();
+      window.addEventListener("resize", () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      });
+    </script>
+  </body>
+</html>

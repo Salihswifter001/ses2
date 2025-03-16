@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profil - Octaverum</title>
+    <link rel="icon" href="logo.png" type="image/png" />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <!-- Canvas Particles -->
+    <canvas id="particleCanvas"></canvas>
+
+    <header>
+      <div class="header-container">
+        <a href="index.html" class="logo-link">
+          <img src="logo.png" alt="Logo" class="logo" />
+        </a>
+        <nav class="navbar">
+          <ul>
+            <li><a href="index.html">Ana sayfa</a></li>
+            <li><a href="abonelik.html">Abonelik</a></li>
+            <li><a href="signin.html">Giriş yap</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="profiles.html" class="active">Profil</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <div class="profile-container">
+      <h2 class="login-title">Profilim</h2>
+      <div id="profile-info">
+        <!-- Profil bilgileri JavaScript ile doldurulacak -->
+        <p>Yükleniyor...</p>
+      </div>
+      
+      <div class="profile-actions">
+        <button id="edit-profile-button" class="edit-profile-button">Profili Düzenle</button>
+        <button id="change-password-button" class="edit-profile-button">Şifre Değiştir</button>
+      </div>
+      
+      <!-- Profil Düzenleme Formu (başlangıçta gizli) -->
+      <form id="edit-profile-form" class="login-form" style="display: none;">
+        <h3>Profil Bilgilerini Düzenle</h3>
+        
+        <label for="nickname">Kullanıcı Adı</label>
+        <input type="text" id="nickname" name="nickname" placeholder="Kullanıcı adınız" required>
+        
+        <label for="country-code">Ülke Kodu</label>
+        <select id="country-code" name="countryCode" required>
+          <option value="+90">Türkiye (+90)</option>
+          <option value="+1">ABD (+1)</option>
+          <option value="+44">İngiltere (+44)</option>
+          <option value="+49">Almanya (+49)</option>
+          <option value="+33">Fransa (+33)</option>
+        </select>
+        
+        <label for="phone">Telefon Numarası</label>
+        <input type="tel" id="phone" name="phone" placeholder="Telefon numarası" required>
+        
+        <div class="form-actions">
+          <button type="submit" class="login-button">Kaydet</button>
+          <button type="button" id="cancel-edit" class="cancel-button">İptal</button>
+        </div>
+      </form>
+      
+      <!-- Şifre Değiştirme Formu (başlangıçta gizli) -->
+      <form id="change-password-form" class="login-form" style="display: none;">
+        <h3>Şifre Değiştir</h3>
+        
+        <label for="current-password">Mevcut Şifre</label>
+        <input type="password" id="current-password" name="currentPassword" placeholder="Mevcut şifreniz" required>
+        
+        <label for="new-password">Yeni Şifre</label>
+        <input type="password" id="new-password" name="newPassword" placeholder="Yeni şifre" required>
+        
+        <label for="confirm-password">Yeni Şifre (Tekrar)</label>
+        <input type="password" id="confirm-password" name="confirmPassword" placeholder="Yeni şifre tekrar" required>
+        
+        <div class="form-actions">
+          <button type="submit" class="login-button">Şifreyi Değiştir</button>
+          <button type="button" id="cancel-password" class="cancel-button">İptal</button>
+        </div>
+      </form>
+      
+      <div class="subscription-info">
+        <h3>Mevcut Abonelik</h3>
+        <div id="subscription-details">
+          <!-- Abonelik bilgileri JavaScript ile doldurulacak -->
+          <p>Yükleniyor...</p>
+        </div>
+        <a href="abonelik.html" class="change-subscription-link">Aboneliği Değiştir</a>
+      </div>
+    </div>
+
+    <script>
+      const canvas = document.getElementById("particleCanvas");
+      const ctx = canvas.getContext("2d");
+      canvas.style.position = "fixed";
+      canvas.style.top = "0";
+      canvas.style.left = "0";
+      canvas.style.width = "100%";
+      canvas.style.height = "100%";
+      canvas.style.zIndex = "-1";
+      canvas.style.pointerEvents = "none";
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const particles = [];
+      const numParticles = 100;
+      for (let i = 0; i < numParticles; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          radius: Math.random() * 3 + 1,
+          vx: (Math.random() - 0.5) * 0.5,
+          vy: (Math.random() - 0.5) * 0.5,
+          alpha: Math.random(),
+        });
+      }
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach((p) => {
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+          if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fillStyle = "rgba(255,255,255," + p.alpha + ")";
+          ctx.fill();
+        });
+        requestAnimationFrame(animate);
+      }
+      animate();
+      window.addEventListener("resize", () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      });
+    </script>
+
+    <!-- Scripts -->
+    <script src="/js/api/auth.js"></script>
+    <script src="/js/auth-check.js"></script>
+    <script src="/js/profile.js"></script>
+  </body>
+</html>

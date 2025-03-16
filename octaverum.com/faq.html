@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FAQ - Octaverum</title>
+    <link rel="icon" href="logo.png" type="image/png" />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <canvas id="particleCanvas"></canvas>
+    <header>
+      <div class="header-container">
+        <a href="index.html" class="logo-link">
+          <img src="logo.png" alt="Logo" class="logo" />
+        </a>
+        <nav class="navbar">
+          <ul>
+            <li><a href="index.html">Ana sayfa</a></li>
+            <li><a href="abonelik.html">Abonelik</a></li>
+            <li><a href="signin.html">Giriş yap</a></li>
+            <li><a href="faq.html" class="active">FAQ</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="faq">
+      <h3>Sıkça Sorulan Sorular</h3>
+      <div class="faq-item">
+        <div class="faq-question">1. Platform hangi dilleri destekliyor?</div>
+        <div class="faq-answer">
+          Şu anda Türkçe ve İngilizce arayüz desteğimiz bulunuyor. Yakında daha
+          fazla dil eklemeyi planlıyoruz.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">2. Müzik üretimi ne kadar sürüyor?</div>
+        <div class="faq-answer">
+          Üretilen müziğin karmaşıklığına göre 10 ila 30 saniye arasında
+          değişebilir.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          3. Hangi ödeme yöntemlerini kabul ediyorsunuz?
+        </div>
+        <div class="faq-answer">
+          Kredi kartı, banka kartı ve yakında PayPal desteği eklenecektir.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          4. Veritabanı güvenliği nasıl sağlanıyor?
+        </div>
+        <div class="faq-answer">
+          Tüm verileriniz şifreli biçimde saklanır ve düzenli güvenlik
+          taramaları yapılır.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          5. Müziklerimi sosyal medyada paylaşabilir miyim?
+        </div>
+        <div class="faq-answer">
+          Evet, oluşturduğunuz müzikleri indirebilir veya paylaşım linki ile
+          sosyal medya platformlarında paylaşabilirsiniz.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">6. Pro planında hangi ek özellikler var?</div>
+        <div class="faq-answer">
+          Sınırsız müzik üretimi, gelişmiş efektler, özel mix &amp; mastering
+          seçenekleri ve öncelikli destek gibi avantajlar sunuyoruz.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          7. Projem için özel müzik lisansı alabilir miyim?
+        </div>
+        <div class="faq-answer">
+          Evet, ticari projelerinizde kullanmak üzere lisans anlaşması
+          yapabilirsiniz. Bunun için bizimle iletişime geçin.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          8. Yüksek çözünürlüklü ses formatları destekleniyor mu?
+        </div>
+        <div class="faq-answer">
+          Şu anda MP3, WAV ve FLAC formatlarını destekliyoruz. İhtiyaçlarınıza
+          göre daha fazlasını ekleyebiliriz.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          9. Tarayıcıda kullanırken donma veya yavaşlama yaşıyorum, ne
+          yapmalıyım?
+        </div>
+        <div class="faq-answer">
+          Tarayıcınızı güncelleyin, önbelleği temizleyin veya farklı bir
+          tarayıcı deneyin. Sorun devam ederse destek ekibimize ulaşın.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          10. Daha fazla yardıma ihtiyacım olursa ne yapmalıyım?
+        </div>
+        <div class="faq-answer">
+          İletişim sayfamızdan bize ulaşabilir veya destek@octaverum.com
+          adresine e-posta gönderebilirsiniz.
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <p>© 2025 Octaverum. All rights reserved.</p>
+    </footer>
+
+    <script>
+      const canvas = document.getElementById("particleCanvas");
+      const ctx = canvas.getContext("2d");
+      canvas.style.position = "fixed";
+      canvas.style.top = "0";
+      canvas.style.left = "0";
+      canvas.style.width = "100%";
+      canvas.style.height = "100%";
+      canvas.style.zIndex = "-1";
+      canvas.style.pointerEvents = "none";
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const particles = [];
+      const numParticles = 100;
+      for (let i = 0; i < numParticles; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          radius: Math.random() * 3 + 1,
+          vx: (Math.random() - 0.5) * 0.5,
+          vy: (Math.random() - 0.5) * 0.5,
+          alpha: Math.random(),
+        });
+      }
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach((p) => {
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+          if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fillStyle = "rgba(255,255,255," + p.alpha + ")";
+          ctx.fill();
+        });
+        requestAnimationFrame(animate);
+      }
+      animate();
+      window.addEventListener("resize", () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      });
+      
+      // FAQ Açılır/Kapanır Fonksiyonu
+      const faqQuestions = document.querySelectorAll(".faq-question");
+      faqQuestions.forEach((q) => {
+        q.addEventListener("click", () => {
+          q.classList.toggle("active");
+          const answer = q.nextElementSibling;
+          if (answer.style.maxHeight) {
+            answer.style.maxHeight = null;
+          } else {
+            answer.style.maxHeight = answer.scrollHeight + "px";
+          }
+        });
+      });
+    </script>
+
+    <style>
+      .faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease;
+      }
+    </style>
+
+    <!-- Scripts -->
+    <script src="/js/api/auth.js"></script>
+    <script src="/js/auth-check.js"></script>
+  </body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kayıt Ol - Octaverum</title>
+    <link rel="icon" href="logo.png" type="image/png" />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <!-- Arka plan partiküller -->
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- Sabit Header & Navbar -->
+    <header>
+      <div class="header-container">
+        <a href="index.html" class="logo-link">
+          <img src="logo.png" alt="Octaverum Logo" class="logo" />
+        </a>
+        <nav class="navbar">
+          <ul>
+            <li><a href="index.html">Ana sayfa</a></li>
+            <li><a href="abonelik.html">Abonelik</a></li>
+            <li><a href="signin.html">Giriş yap</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Kayıt Formu -->
+    <div class="register-container">
+      <h2 class="login-title">Kayıt Ol</h2>
+      <form class="login-form" id="register-form">
+        <label for="nickname">Kullanıcı Adı</label>
+        <input
+          type="text"
+          id="nickname"
+          name="nickname"
+          placeholder="Kullanıcı adınız"
+          required
+        />
+        <label for="email">E-posta</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="E-posta"
+          required
+        />
+        <label for="password">Şifre</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Şifre"
+          required
+        />
+        <label for="password2">Şifre (Tekrar)</label>
+        <input
+          type="password"
+          id="password2"
+          name="password2"
+          placeholder="Şifre tekrar"
+          required
+        />
+        <label for="country_code">Ülke Kodu</label>
+        <select id="country_code" name="country_code" required>
+          <option value="+90">Türkiye (+90)</option>
+          <option value="+1">ABD (+1)</option>
+          <option value="+44">İngiltere (+44)</option>
+          <option value="+49">Almanya (+49)</option>
+          <option value="+33">Fransa (+33)</option>
+        </select>
+        <label for="phone">Telefon Numarası</label>
+        <input
+          type="tel"
+          id="phone"
+          name="phone"
+          placeholder="Telefon numarası"
+          required
+        />
+        <label for="security_question">Güvenlik Sorusu</label>
+        <select id="security_question" name="security_question" required>
+          <option value="mother-maiden">Annenizin kızlık soyadı?</option>
+          <option value="first-pet">İlk evcil hayvanınızın ismi?</option>
+          <option value="favorite-color">Favori renginiz nedir?</option>
+        </select>
+        <label for="security_answer">Güvenlik Sorusu Cevabı</label>
+        <input
+          type="text"
+          id="security_answer"
+          name="security_answer"
+          placeholder="Cevabınız"
+          required
+        />
+        <button type="submit" class="register-button">Kayıt Ol</button>
+      </form>
+      <p class="register-text">
+        Zaten hesabınız var mı? <a href="signin.html">Giriş Yap</a>
+      </p>
+    </div>
+
+    <footer class="footer">
+      <p>© 2025 Octaverum. All rights reserved.</p>
+    </footer>
+
+    <!-- Canvas Particles -->
+    <script>
+      const canvas = document.getElementById("particleCanvas");
+      const ctx = canvas.getContext("2d");
+      canvas.style.position = "fixed";
+      canvas.style.top = "0";
+      canvas.style.left = "0";
+      canvas.style.width = "100%";
+      canvas.style.height = "100%";
+      canvas.style.zIndex = "-1";
+      canvas.style.pointerEvents = "none";
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const particles = [];
+      const numParticles = 100;
+      for (let i = 0; i < numParticles; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          radius: Math.random() * 3 + 1,
+          vx: (Math.random() - 0.5) * 0.5,
+          vy: (Math.random() - 0.5) * 0.5,
+          alpha: Math.random(),
+        });
+      }
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach((p) => {
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+          if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fillStyle = "rgba(255,255,255," + p.alpha + ")";
+          ctx.fill();
+        });
+        requestAnimationFrame(animate);
+      }
+      animate();
+      window.addEventListener("resize", () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      });
+    </script>
+
+    <!-- API Integration Scripts -->
+    <script src="/js/api/auth.js"></script>
+    <script src="/js/auth-check.js"></script>
+    <script src="/js/register.js"></script>
+  </body>
+</html>

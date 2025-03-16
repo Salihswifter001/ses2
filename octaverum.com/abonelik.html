@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Octaverum - Abonelik</title>
+    <link rel="icon" href="logo.png" type="image/png" />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <!-- Canvas Particles -->
+    <canvas id="particleCanvas"></canvas>
+
+    <header>
+      <div class="header-container">
+        <a href="index.html" class="logo-link">
+          <img src="logo.png" alt="Logo" class="logo" />
+        </a>
+        <nav class="navbar">
+          <ul>
+            <li><a href="index.html">Ana sayfa</a></li>
+            <li><a href="abonelik.html" class="active">Abonelik</a></li>
+            <li><a href="signin.html">Giriş yap</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="subscription-main">
+      <h1 class="subscription-title">Abonelik Planları</h1>
+      <div class="plans-container">
+        <div class="plan-card">
+          <h2>Starter</h2>
+          <p class="plan-price">39.99₺ / ay</p>
+          <ul class="plan-features">
+            <li>Günde 10 müzik</li>
+            <li>Temel AI Müzik Üretimi</li>
+            <li>Standart Destek</li>
+          </ul>
+          <button class="plan-button" data-plan="starter">Satın Al</button>
+        </div>
+        <div class="plan-card">
+          <h2>Plus</h2>
+          <p class="plan-price">69.99₺ / ay</p>
+          <ul class="plan-features">
+            <li>Günde 20 müzik</li>
+            <li>Gelişmiş AI Müzik Üretimi</li>
+            <li>Öncelikli Destek</li>
+            <li>Ek Efektler</li>
+          </ul>
+          <button class="plan-button" data-plan="plus">Satın Al</button>
+        </div>
+        <div class="plan-card">
+          <h2>Pro</h2>
+          <p class="plan-price">99.99₺ / ay</p>
+          <ul class="plan-features">
+            <li>Sınırsız Müzik</li>
+            <li>İleri Seviye AI Müzik Üretimi</li>
+            <li>Öncelikli Destek</li>
+            <li>Özel Mix &amp; Mastering</li>
+            <li>Ekstra Özellikler</li>
+          </ul>
+          <button class="plan-button highlight" data-plan="pro">Satın Al</button>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      const canvas = document.getElementById("particleCanvas");
+      const ctx = canvas.getContext("2d");
+      canvas.style.position = "fixed";
+      canvas.style.top = "0";
+      canvas.style.left = "0";
+      canvas.style.width = "100%";
+      canvas.style.height = "100%";
+      canvas.style.zIndex = "-1";
+      canvas.style.pointerEvents = "none";
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const particles = [];
+      const numParticles = 100;
+      for (let i = 0; i < numParticles; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          radius: Math.random() * 3 + 1,
+          vx: (Math.random() - 0.5) * 0.5,
+          vy: (Math.random() - 0.5) * 0.5,
+          alpha: Math.random(),
+        });
+      }
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach((p) => {
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+          if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fillStyle = "rgba(255,255,255," + p.alpha + ")";
+          ctx.fill();
+        });
+        requestAnimationFrame(animate);
+      }
+      animate();
+      window.addEventListener("resize", () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      });
+    </script>
+
+    <!-- Scripts -->
+    <script src="/js/api/auth.js"></script>
+    <script src="/js/auth-check.js"></script>
+    <script src="/js/subscription.js"></script>
+  </body>
+</html>
